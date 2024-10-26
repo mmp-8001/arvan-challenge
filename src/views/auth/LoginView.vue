@@ -1,5 +1,5 @@
 <script setup lang="ts"></script>
 
 <template>
-  <main>auth</main>
+  <main>login view</main>
 </template>
