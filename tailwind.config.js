@@ -15,6 +15,15 @@ export default {
         bd: '#d5e6c7',
       },
       card: '#eceeef',
+      head: {
+        1: '#707070',
+      },
+      body: {
+        1: '#373a3c',
+      },
+      subtitle: {
+        1: '',
+      },
       error: '#cb2e25',
       danger: {
         bg: '#efdfdf',

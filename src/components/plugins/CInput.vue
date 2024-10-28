@@ -40,23 +40,24 @@ const injectValidation = inject(formValidationKey)
 injectValidation?.validateFunctions.push(validate)
 
 // computed error and error class state
-const errorObject = computed(() => {
-  const errorExists = errors.value.length > 0
-  return {
-    hasError: errorExists,
-    errorInputClass: errorExists
+const errorObject = computed(() => ({
+  hasError: errors.value.length > 0,
+  errorInputClass:
+    errors.value.length > 0
       ? 'border-error !text-error focus:border-error'
       : '',
-    errorText: errors.value[0],
-  }
-})
+  errorText: errors.value[0] || '',
+}))
 </script>
 
 <template>
   <div class="mb-5 w-full">
-    <label :for="name" class="block mb-2 text-sm font-medium text-gray-900">{{
-      label
-    }}</label>
+    <label
+      :for="name"
+      class="block mb-2 text-sm font-medium text-body-1"
+      :class="{ '!text-error': errorObject.hasError }"
+      >{{ label }}</label
+    >
     <input
       :id="name"
       v-model="model"
@@ -67,8 +68,10 @@ const errorObject = computed(() => {
       @blur="validate"
     />
 
-    <div class="pt-1 text-sm" :class="{ 'text-error': errorObject.hasError }">
-      <span v-show="errorObject.hasError">{{ errorObject.errorText }}</span>
+    <div class="pt-1 text-sm text-error">
+      <span v-show="errorObject.hasError"
+        >{{ errorObject.errorText }} &nbsp;</span
+      >
     </div>
   </div>
 </template>
