@@ -64,16 +64,16 @@ const errorObject = computed(() => ({
       v-model="model"
       data-test-id="input"
       type="text"
-      class="outline-none border border-gray-300 text-gray-900 text-sm rounded-md focus:border-blue-500 block w-full p-2.5"
+      class="outline-none border border-gray-300 text-gray-900 text-sm rounded focus:border-blue-500 block w-full p-2.5"
       :class="[errorObject.errorInputClass]"
       :placeholder="placeholder"
       @blur="validate"
     />
 
     <div class="pt-1 text-sm text-error">
-      <span v-show="errorObject.hasError" data-test-id="error"
-        >{{ errorObject.errorText }} &nbsp;</span
-      >
+      <span v-show="errorObject.hasError" data-test-id="error">{{
+        errorObject.errorText
+      }}</span>
     </div>
   </div>
 </template>
