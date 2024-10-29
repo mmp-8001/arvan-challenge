@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { handleErrorResponse } from '@/plugins/api-error'
 
 // init axios
 export const instance = axios.create({
@@ -22,7 +23,11 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   ({ data }) => data,
-  ({ message, response }) => Promise.reject(response ? response.data : message),
+  ({ message, response }) => {
+    // show network error toast
+    handleErrorResponse(response)
+    return Promise.reject(response ? response.data : message)
+  },
 )
 
 export default instance
