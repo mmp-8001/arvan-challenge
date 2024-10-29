@@ -12,12 +12,15 @@ const props = withDefaults(
     name: string
     placeholder?: string
     label: string
-    type: InputTypeHTMLAttribute
+    autocomplete?: string
+    type?: InputTypeHTMLAttribute
   }>(),
   {
     rules: () => [],
     placeholder: '',
     label: '',
+    autocomplete: '',
+    type: 'text',
   },
 )
 
@@ -65,6 +68,7 @@ const errorObject = computed(() => ({
       v-model="model"
       data-test-id="input"
       :type="type"
+      :autocomplete="autocomplete"
       class="outline-none border border-gray-300 text-gray-900 text-sm rounded focus:border-blue-500 block w-full p-2.5"
       :class="[errorObject.errorInputClass]"
       :placeholder="placeholder"
