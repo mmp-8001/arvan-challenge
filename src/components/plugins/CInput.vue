@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, shallowRef } from 'vue'
+import { computed, inject, type InputTypeHTMLAttribute, shallowRef } from 'vue'
 import { formValidationKey } from '@/components/plugins/keys'
 
 // init
@@ -12,6 +12,7 @@ const props = withDefaults(
     name: string
     placeholder?: string
     label: string
+    type: InputTypeHTMLAttribute
   }>(),
   {
     rules: () => [],
@@ -63,7 +64,7 @@ const errorObject = computed(() => ({
       :id="name"
       v-model="model"
       data-test-id="input"
-      type="text"
+      :type="type"
       class="outline-none border border-gray-300 text-gray-900 text-sm rounded focus:border-blue-500 block w-full p-2.5"
       :class="[errorObject.errorInputClass]"
       :placeholder="placeholder"
