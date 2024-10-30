@@ -17,7 +17,7 @@ declare module 'vue' {
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
     $rules: {
-      required: (v: never) => true | string
+      required: (input: string) => true | string
     }
     $helpers: {
       formatDate: (date: string) => string
