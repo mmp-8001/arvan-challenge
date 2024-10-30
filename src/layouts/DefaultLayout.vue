@@ -1,99 +1,118 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
-import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { initDrawers, initDropdowns, initModals } from 'flowbite'
 
 // init
-const { username } = useUserStore()
-const menuOpen = ref(false)
+const userStore = useUserStore()
+
+// on mounted init flowbite
+onMounted(() => {
+  initDrawers()
+  initModals()
+  initDropdowns()
+})
 </script>
 
 <template>
-  <div class="flex flex-col h-screen">
-    <!-- Header -->
-    <header
-      class="flex fixed top-0 z-[48] !h-[50px] min-h-[50px] w-full flex-wrap text-sm md:flex-nowrap md:justify-start items-center bg-body-1 space-x-3 text-white px-3"
-    >
-      <!-- Mobile menu button -->
-      <button
-        type="button"
-        class="relative inline-flex lg:hidden items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-        aria-controls="mobile-menu"
-        aria-expanded="false"
-        @click="menuOpen = !menuOpen"
-      >
-        <span class="absolute -inset-0.5"></span>
-        <span class="sr-only">Open main menu</span>
-        <!-- Menu open: "hidden", Menu closed: "block" -->
-        <svg
-          class="block h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          aria-hidden="true"
-          data-slot="icon"
+  <!-- navbar header -->
+  <nav class="fixed top-0 z-50 w-full bg-body-1">
+    <div class="px-3 h-[64px] lg:px-5 lg:pl-3">
+      <div class="flex items-center h-full justify-between">
+        <div
+          class="flex w-full text-white items-center justify-start rtl:justify-end"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-          />
-        </svg>
-        <!-- Menu open: "block", Menu closed: "hidden" -->
-        <svg
-          class="hidden h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          aria-hidden="true"
-          data-slot="icon"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18 18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
-      <h1 class="text-lg font-semibold">Arvan Challenge</h1>
-      <span class="hidden grow text-left sm:block">Welcome {{ username }}</span>
-      <button
-        class="text-white border border-white px-3 py-1 rounded hover:bg-gray-700"
-      >
-        Logout
-      </button>
-    </header>
+          <!--     mobile menu toggle button     -->
+          <button
+            data-drawer-target="logo-sidebar"
+            data-drawer-toggle="logo-sidebar"
+            aria-controls="logo-sidebar"
+            type="button"
+            class="inline-flex mr-3 items-center p-2 text-sm text-gray-500 rounded sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          >
+            <span class="sr-only">Open sidebar</span>
+            <svg
+              class="w-6 h-6"
+              aria-hidden="true"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+              ></path>
+            </svg>
+          </button>
 
-    <!-- Sidebar -->
-    <aside
-      :class="{ 'open-menu': menuOpen }"
-      class="w-[16rem] bg-primary fixed top-[50px] transition-transform z-10 lg:translate-x-0 open-menu:translate-x-0 translate-x-[-100%] lg:block text-white left-0 bottom-0"
-    >
-      <h2 class="text-lg font-semibold p-4">Post</h2>
-      <nav class="space-y-2">
-        <router-link
-          :to="{ name: 'Articles' }"
-          active-class="bg-white/10"
-          class="block pl-6 py-2 hover:bg-white/10"
-          >All Articles
-        </router-link>
-        <router-link
-          :to="{ name: 'ArticlesCreate' }"
-          active-class="bg-white/10"
-          class="block pl-6 py-2 hover:bg-white/10"
-          >New Article</router-link
-        >
-      </nav>
-    </aside>
+          <router-link :to="{ name: 'Home' }" class="font-medium mr-3 text-lg">
+            Arvan Challenge
+          </router-link>
+          <span class="text-sm hidden md:inline grow"
+            >Welcome {{ userStore.username }}</span
+          >
+          <div class="grow"></div>
 
-    <!-- Main Area -->
-    <main class="w-full h-full pt-[50px] lg:ps-64">
-      <div class="p-4 h-full overflow-y-auto sm:p-6 space-y-4 sm:space-y-6">
-        <router-view />
+          <!--     logout button     -->
+          <c-button
+            class="px-4 bg-transparent hover:bg-body-1 text-sm border hover:bg-white/10 border-secondary !text-secondary"
+            data-modal-target="logout-modal"
+            data-modal-toggle="logout-modal"
+            type="button"
+          >
+            Logout
+          </c-button>
+        </div>
       </div>
-    </main>
+    </div>
+  </nav>
+
+  <!-- sidebar -->
+  <aside
+    id="logo-sidebar"
+    class="fixed top-0 left-0 z-40 w-64 h-screen pt-[64px] transition-transform -translate-x-full bg-primary sm:translate-x-0"
+    aria-label="Sidebar"
+  >
+    <div class="h-full pb-4 overflow-y-auto bg-primary">
+      <h1 class="p-3 text-xl text-white">Post</h1>
+      <ul class="space-y-2">
+        <li>
+          <router-link
+            active-class="bg-white/10"
+            to="/articles"
+            class="flex items-center pl-4 p-2 text-white hover:bg-white/10 group"
+          >
+            <span class="ms-3">All Articles</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            active-class="bg-white/10"
+            :to="{ name: 'ArticlesCreate' }"
+            class="flex items-center pl-4 p-2 text-white hover:bg-white/10 group"
+          >
+            <span class="ms-3">New Article</span>
+          </router-link>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- main content -->
+  <div class="p-4 mt-[64px] sm:ml-64">
+    <div class="lg:p-4">
+      <router-view />
+    </div>
   </div>
+
+  <!-- logout modal -->
+  <c-modal name="logout-modal" @ok="userStore.logout">
+    <template #header>Confirm Logout</template>
+    <template #body>Are you sure you want to logout?</template>
+    <template #accept>Yes</template>
+    <template #cancel>Cancel</template>
+  </c-modal>
 </template>
 
 <style scoped></style>
