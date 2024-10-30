@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#app {
+  height: 100% !important;
+  width: 100% !important;
+  font-family: Inter, sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+@layer components {
+  .card {
+    @apply bg-card rounded p-5 flex flex-col items-center md:w-1/2 w-full md:mx-0 mx-3 lg:w-1/4;
+  }
+}
+
+@layer utilities {
+  .custom-toast-button {
+    @apply !text-body-1;
+  }
+
+  .custom-toast-error {
+    @apply !bg-danger-bg !shadow-none !text-danger-fg !min-h-0 !py-3 !pl-4 !pr-3 !border !border-danger-bd !rounded;
+  }
+
+  .custom-toast-success {
+    @apply !bg-success-bg !shadow-none !text-success-fg !min-h-0 !py-3 !pl-4 !pr-3 !border !border-success-bd !rounded;
+  }
+}
