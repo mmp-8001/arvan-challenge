@@ -12,6 +12,7 @@ const props = withDefaults(
     name: string
     placeholder?: string
     label: string
+    loading?: boolean
     autocomplete?: string
     type?: InputTypeHTMLAttribute
   }>(),
@@ -19,6 +20,7 @@ const props = withDefaults(
     rules: () => [],
     placeholder: '',
     label: '',
+    loading: false,
     autocomplete: '',
     type: 'text',
   },
@@ -26,6 +28,9 @@ const props = withDefaults(
 
 // input v-model
 const model = defineModel<string>({ default: '' })
+
+// emits
+defineEmits(['enterPressed'])
 
 // call if input is valid
 const validate = () => {
@@ -63,7 +68,12 @@ const errorObject = computed(() => ({
       :class="{ '!text-error': errorObject.hasError }"
       >{{ label }}</label
     >
+    <div
+      v-if="loading"
+      class="block h-[42px] w-full rounded animate-pulse bg-slate-100"
+    ></div>
     <input
+      v-else
       :id="name"
       v-model="model"
       data-test-id="input"
@@ -72,6 +82,7 @@ const errorObject = computed(() => ({
       class="outline-none border border-gray-300 text-gray-900 text-sm rounded focus:border-blue-500 block w-full p-2.5"
       :class="[errorObject.errorInputClass]"
       :placeholder="placeholder"
+      @keydown.enter="$emit('enterPressed', $event)"
       @blur="validate"
     />
 
