@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { UserInfo } from '@/types'
+import router from '@/router'
 
 export const useUserStore = defineStore('user', {
   state: () =>
@@ -14,7 +15,7 @@ export const useUserStore = defineStore('user', {
   getters: {},
 
   actions: {
-    isLogin() {
+    isLoggedIn() {
       return (
         this.token &&
         this.username &&
@@ -28,6 +29,10 @@ export const useUserStore = defineStore('user', {
       this.image = user.image
       this.email = user.email
       this.token = user.token
+    },
+    async logout() {
+      this.clearUser()
+      return await router.push({ name: 'Login' })
     },
     clearUser() {
       this.username = ''
