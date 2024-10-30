@@ -11,6 +11,7 @@ import { userPiniaPlugin } from '@/plugins/userPiniaPlugin'
 import Toast from 'vue-toastification'
 import type { PluginOptions } from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
+import Helpers from '@/plugins/helpers'
 
 // create pinia and register plugins
 const pinia = createPinia()
@@ -38,6 +39,7 @@ app.use(Toast, options)
 app.use(pinia)
 app.use(router)
 app.use(GlobalComponents)
+app.use(Helpers)
 app.use(FormRules)
 
 app.mount('#app')

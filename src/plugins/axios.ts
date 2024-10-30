@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { handleErrorResponse } from '@/plugins/api-error'
+import { useUserStore } from '@/stores/user'
 
 // init axios
 export const instance = axios.create({
@@ -8,12 +9,12 @@ export const instance = axios.create({
 })
 
 instance.interceptors.request.use(
-  config => {
+  async config => {
     // retrieve jwt-token if exist
-    const token = localStorage.getItem('jwt-token')
+    const token = useUserStore().token
 
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers.Authorization = `Token ${token}`
     }
 
     return config
@@ -23,9 +24,9 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   ({ data }) => data,
-  ({ message, response }) => {
+  async ({ message, response }) => {
     // show network error toast
-    handleErrorResponse(response)
+    await handleErrorResponse(response)
     return Promise.reject(response ? response.data : message)
   },
 )

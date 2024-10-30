@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, type InputTypeHTMLAttribute, shallowRef } from 'vue'
+import { computed, inject, shallowRef } from 'vue'
 import { formValidationKey } from '@/components/plugins/keys'
 
 // init
@@ -10,11 +10,9 @@ const props = withDefaults(
   defineProps<{
     rules?: ((input: string) => string | true)[]
     name: string
+    loading?: boolean
     placeholder?: string
     label: string
-    loading?: boolean
-    autocomplete?: string
-    type?: InputTypeHTMLAttribute
   }>(),
   {
     rules: () => [],
@@ -28,9 +26,6 @@ const props = withDefaults(
 
 // input v-model
 const model = defineModel<string>({ default: '' })
-
-// emits
-defineEmits(['enterPressed'])
 
 // call if input is valid
 const validate = () => {
@@ -70,24 +65,22 @@ const errorObject = computed(() => ({
     >
     <div
       v-if="loading"
-      class="block h-[42px] w-full rounded animate-pulse bg-slate-100"
+      class="bg-slate-100 w-full animate-pulse h-[201px]"
     ></div>
-    <input
+    <textarea
       v-else
       :id="name"
       v-model="model"
       data-test-id="input"
-      :type="type"
-      :autocomplete="autocomplete"
-      class="outline-none border border-gray-300 text-gray-900 text-sm rounded focus:border-blue-500 block w-full p-2.5"
+      class="outline-none border resize-none border-gray-300 text-gray-900 text-sm rounded focus:border-blue-500 block w-full p-2.5"
       :class="[errorObject.errorInputClass]"
+      rows="9"
       :placeholder="placeholder"
-      @keydown.enter="$emit('enterPressed', $event)"
       @blur="validate"
     />
 
-    <div class="pt-1 text-sm text-error">
-      <span v-show="errorObject.hasError" data-test-id="error">{{
+    <div class="text-sm text-error">
+      <span v-show="errorObject.hasError" class="pt-1" data-test-id="error">{{
         errorObject.errorText
       }}</span>
     </div>
