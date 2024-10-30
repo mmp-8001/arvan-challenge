@@ -55,7 +55,7 @@ const { execute, loading } = useFetch(
       name="password"
       :rules="[$rules.required]"
     />
-    <c-button :loading="loading"> Register </c-button>
+    <c-button class="w-full" :loading="loading"> Register </c-button>
     <p class="self-start text-sm mt-5">
       Already Registered?
       <router-link to="login" class="font-bold p-2 pl-1 hover:underline"

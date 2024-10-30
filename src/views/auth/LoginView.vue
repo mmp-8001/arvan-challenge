@@ -46,7 +46,7 @@ const { execute, loading } = useFetch(() => login(loginParameter), successLogin)
       autocomplete="current-password"
       :rules="[$rules.required]"
     />
-    <c-button :loading="loading"> Login </c-button>
+    <c-button class="w-full" :loading="loading"> Login </c-button>
     <p class="self-start text-sm mt-5">
       Don't have account?
       <router-link to="register" class="font-bold p-2 pl-1 hover:underline"
