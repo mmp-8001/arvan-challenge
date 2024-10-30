@@ -6,6 +6,9 @@ import { useFetch } from '@/composables/fetch'
 import { getArticle, updateArticle } from '@/api/articleService'
 import { useRoute } from 'vue-router'
 import type { ArticleSingle } from '@/types'
+import { useToast } from 'vue-toastification'
+import CToast from '@/components/plugins/CToast.vue'
+import router from '@/router'
 
 // init
 const editParameter = ref<ArticleSingle>({
@@ -18,9 +21,22 @@ const editParameter = ref<ArticleSingle>({
 // get slug param
 const slug = <string>useRoute().params.slug
 
+// on updated successfully
+const articleUpdated = async () => {
+  useToast().success({
+    component: CToast,
+    props: {
+      title: 'Well done! ',
+      additional: 'Article updated successfully',
+    },
+  })
+  return await router.push({ name: 'Home' })
+}
+
 // update article api
-const { execute: executeUpdate, loading: loadingUpdate } = useFetch(() =>
-  updateArticle(slug, editParameter.value),
+const { execute: executeUpdate, loading: loadingUpdate } = useFetch(
+  () => updateArticle(slug, editParameter.value),
+  articleUpdated,
 )
 
 // get article api
