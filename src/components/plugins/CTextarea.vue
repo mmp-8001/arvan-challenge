@@ -10,6 +10,7 @@ const props = withDefaults(
   defineProps<{
     rules?: ((input: string) => string | true)[]
     name: string
+    loading?: boolean
     placeholder?: string
     label: string
   }>(),
@@ -17,6 +18,7 @@ const props = withDefaults(
     rules: () => [],
     placeholder: '',
     label: '',
+    loading: false,
     autocomplete: '',
     type: 'text',
   },
@@ -61,7 +63,12 @@ const errorObject = computed(() => ({
       :class="{ '!text-error': errorObject.hasError }"
       >{{ label }}</label
     >
+    <div
+      v-if="loading"
+      class="bg-slate-100 w-full animate-pulse h-[201px]"
+    ></div>
     <textarea
+      v-else
       :id="name"
       v-model="model"
       data-test-id="input"
