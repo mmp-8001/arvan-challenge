@@ -1,25 +1,17 @@
 import instance from '@/plugins/axios'
 
-import type { ArticleInfo, PaginationMeta, UserInfo } from '@/types'
+import type { ArticleInfo, ArticleSingle, PaginationMeta } from '@/types'
 
-export const createArticle = (article: {
-  title: string
-  description: string
-  body: string
-  tags: string[]
-}): Promise<{ user: UserInfo }> => {
+export const createArticle = (
+  article: ArticleSingle,
+): Promise<{ article: ArticleInfo }> => {
   return instance.post('/articles', { article })
 }
 
 export const updateArticle = (
   slug: string,
-  article: {
-    title: string
-    description: string
-    body: string
-    tagList: string[]
-  },
-): Promise<{ user: UserInfo }> => {
+  article: ArticleSingle,
+): Promise<{ article: ArticleInfo }> => {
   return instance.put(`/articles/${slug}`, { article })
 }
 

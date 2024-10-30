@@ -13,7 +13,7 @@ const createParameter = shallowReactive({
   title: '',
   description: '',
   body: '',
-  tags: [],
+  tagList: [],
 })
 
 // on created successfully
@@ -62,7 +62,7 @@ const { execute, loading } = useFetch(
       />
     </div>
     <articles-tag
-      v-model="createParameter.tags"
+      v-model="createParameter.tagList"
       class="lg:w-1/4 w-full lg:pl-3"
     />
     <div class="w-full mt-5 items-start">
