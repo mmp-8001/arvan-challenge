@@ -1,6 +1,6 @@
 # arvan-challenge
 
-This template should help get you started developing with Vue 3 in Vite.
+This project is an implementation of the [RealWorld](https://github.com/gothinkster/realworld) example application, designed as part of a recruitment task for Arvan Cloud.
 
 ## Recommended IDE Setup
 
