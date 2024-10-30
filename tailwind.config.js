@@ -1,14 +1,19 @@
-import colors from 'tailwindcss/colors.js'
-
-import generated from '@tailwindcss/forms'
+import colors from 'tailwindcss/colors'
+import formPlugin from '@tailwindcss/forms'
+import flowbitePlugin from 'flowbite/plugin'
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  content: [
+    './index.html',
+    './node_modules/flowbite/**/*.js',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+  ],
   theme: {
     colors: {
       ...colors,
       primary: '#1c7cd5',
+      'primary-darker': '#0b68bd',
       bg: '#ffffff',
       secondary: '#5bc0de',
       success: {
@@ -35,5 +40,5 @@ export default {
     },
     extend: {},
   },
-  plugins: [generated],
+  plugins: [formPlugin, flowbitePlugin],
 }
