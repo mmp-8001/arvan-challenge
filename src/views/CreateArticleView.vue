@@ -4,6 +4,9 @@ import { shallowReactive } from 'vue'
 import CTextarea from '@/components/plugins/CTextarea.vue'
 import { useFetch } from '@/composables/fetch'
 import { createArticle } from '@/api/articleService'
+import { useToast } from 'vue-toastification'
+import CToast from '@/components/plugins/CToast.vue'
+import router from '@/router'
 
 // init
 const createParameter = shallowReactive({
@@ -13,8 +16,23 @@ const createParameter = shallowReactive({
   tags: [],
 })
 
+// on created successfully
+const articleCreated = async () => {
+  useToast().success({
+    component: CToast,
+    props: {
+      title: 'Well done! ',
+      additional: 'Article created successfully',
+    },
+  })
+  return await router.push({ name: 'Home' })
+}
+
 // create article api
-const { execute, loading } = useFetch(() => createArticle(createParameter))
+const { execute, loading } = useFetch(
+  () => createArticle(createParameter),
+  articleCreated,
+)
 </script>
 
 <template>
