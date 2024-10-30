@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import type { ArticleInfo, PaginationMeta } from '@/types'
 import router from '@/router'
-import { nextTick, onUpdated } from 'vue'
+import { nextTick, onUpdated, ref } from 'vue'
 import { initDropdowns, initModals } from 'flowbite'
+
+// init
+const selectArticle = ref('')
 
 // props
 const props = defineProps<{
@@ -22,6 +25,9 @@ async function nextPage() {
       params: { page: props.pagination.current + 1 },
     })
 }
+
+// emits
+defineEmits(['remove-article'])
 
 // prev page
 async function prevPage() {
@@ -121,7 +127,7 @@ onUpdated(() => {
                 <td class="px-4 py-3">
                   {{ $helpers.formatDate(row.createdAt) }}
                 </td>
-                <td class="px-4 py-3 flex items-center justify-end">
+                <td class="px-4 py-3">
                   <button
                     :data-dropdown-toggle="row.slug + '-dropdown'"
                     class="inline-flex bg-secondary text-white items-center p-1 text-sm font-medium text-center t hover:text-gray-800 rounded focus:outline-none"
@@ -163,6 +169,7 @@ onUpdated(() => {
                           data-modal-toggle="delete-article"
                           type="button"
                           class="block w-full text-left py-2 px-4 hover:bg-gray-100"
+                          @click="selectArticle = row.slug"
                         >
                           Delete
                         </button>
@@ -248,7 +255,7 @@ onUpdated(() => {
         </ul>
       </nav>
     </div>
-    <c-modal data-modal-target="delete-article" name="delete-article">
+    <c-modal name="delete-article" @ok="$emit('remove-article', selectArticle)">
       <template #header>Delete Article</template>
       <template #body>Are you sure to delete article?</template>
       <template #cancel>No</template>
